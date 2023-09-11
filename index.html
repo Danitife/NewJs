@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .card{
+            width: 200px;
+            height: 200px;
+            border: 1px solid lightgrey;
+            box-shadow: 8px 6px 8px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Shopping List</h1>
+        <input id="item" type="text" placeholder="Item"><br><br>
+        <input id="qty" type="number" placeholder="Quantity"><br><br>
+        <input id="price" type="number" placeholder="Price"><br><br>
+        <button onclick="addToList()">Click me</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="disp">
+
+            </tbody>
+        </table>
+    </main>
+    <button onclick="plus()">+</button>
+    <span id="showNum"></span>
+    <button onclick="minus()">-</button>
+
+    <button>Prev</button>
+    <span id="errm"></span>
+    <button>Next</button>
+
+    <!-- Edit Div -->
+    <div id="card" class="card">
+        <input id="editItem" type="text" placeholder="Item"><br><br>
+        <input id="editQty" type="number" placeholder="Quantity"><br><br>
+        <input id="editPrice" type="number" placeholder="Price"><br><br>
+        <button onclick="editTodo()">Save</button>
+    </div>
+    <!-- <button onclick="showCard()">Card</button> -->
+</body>
+</html>
+
+<script>
+    // SET TIMEOUT
+    // SET INTERVAL
+    // CLEAR INTERVAL
+    // CLEAR TIMEOUT
+    // LOCAL STORAGE
+    // OBJECT
+    // DATE
+    // FIND, FILTER ETC (ARRAY METHODS)
+    // DOM MANIPULATION
+    // MATH.RANDOM --
+    // MATH.FLOOR --
+    // REGEX (Regular expression)
+    // GIT
+    // DATE
+
+    let arr2 = ["sneak1.jpeg", ]
+    let arr1 = ["Me", "You", "Him", "She", "They", "Them"];
+    errm.innerHTML = arr1[1]
+    let num = 0;
+    showNum.innerHTML = num;
+    function plus(){
+        if(num > 9){
+            alert("Max number reached")
+            return;
+        }else{
+            num++
+            showNum.innerHTML = num
+        }
+    }
+    // How to check for errors... 
+        //-Using your console tab
+        //- Attack an alert to the begining of your code(Break points) 
+    // Some people don't even know what's going on
+    // They are using their money
+
+    let item = document.getElementById("item")
+    let qty = document.getElementById("qty")
+    let price = document.getElementById("price")
+    let editItem = document.getElementById("editItem")
+    let editQty = document.getElementById("editQty")
+    let editPrice = document.getElementById("editPrice")
+    let card = document.getElementById("card")
+    let disp = document.getElementById("disp")
+    let theIndex;
+    let list = [];
+    let names = ["Dan", "Sam", "Victor"]
+    console.log(names.length);
+    // names.splice(0,1) //Used to delete item from the Array
+    names.splice(0, 1, "Samuel")
+    console.log(names);
+
+    function addToList(){
+        // console.log(nameh);
+        let data = {
+            item: item.value,
+            qty: qty.value,
+            price: price.value
+        }
+        list.push(data)
+        console.log(list);
+        disp.innerHTML = ""
+        list.forEach((el,i)=>{
+            disp.innerHTML += `
+                <tr>
+                    <td>${i}</td>    
+                    <td>${el.item}</td>    
+                    <td>${el.qty}</td>    
+                    <td>${el.price}</td>  
+                    <td>
+                        <button onclick="edit(${i})">edit</button>
+                        <button onclick="del(${i})">del</button>   
+                    </td>  
+                </tr>
+            `
+        })
+    }
+    //What is an argument (A value passed to a function when it is called or invoked)
+    // What is a parameter(A variable passed to a function when it is declared)
+    function del(i){
+        console.log(i);
+        list.splice(i,1);
+        disp.innerHTML = ""
+        list.forEach((el,i)=>{
+            disp.innerHTML += `
+                <tr>
+                    <td>${i}</td>    
+                    <td>${el.item}</td>    
+                    <td>${el.qty}</td>    
+                    <td>${el.price}</td>  
+                    <td>
+                        <button onclick="edit(${i})">edit</button>
+                        <button onclick="del(${i})">del</button>   
+                    </td>  
+                </tr>
+            `
+        })
+    }
+    card.style.display = "none";
+    // function showCard(){
+        // if(card.style.display == "none"){
+        //     card.style.display = "block";
+        // }else{
+        //     card.style.display = "none";
+        // }
+        // card.style.display == "none" ? card.style.display = "block" : card.style.display = "none"
+    // }
+    function edit(i){
+        card.style.display = "block";
+        theIndex = i
+    }
+    function editTodo(){
+        let data = {
+            item: editItem.value,
+            qty: editQty.value,
+            price: editPrice.value
+        }
+        list.splice(theIndex,1, data)
+        disp.innerHTML = ""
+        list.forEach((el,i)=>{
+            disp.innerHTML += `
+                <tr>
+                    <td>${i}</td>    
+                    <td>${el.item}</td>    
+                    <td>${el.qty}</td>    
+                    <td>${el.price}</td>  
+                    <td>
+                        <button onclick="edit(${i})">edit</button>
+                        <button onclick="del(${i})">del</button>   
+                    </td>  
+                </tr>
+            `
+        })
+        card.style.display = "none"
+    }
+</script>
