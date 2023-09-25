@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <div id="dispQue"></div>
+        <button id="prevBTN" onclick="prev()">Prev</button>
+        <button onclick="nextQue()" id="nextBTN">Next</button>
+        <button onclick="showScore()" id="scoreBtn">Submit</button>
+    </main>
+
+    <button onclick="checkEvent(event)">something</button>
+    <h1>Lorem ipsum dolor sit.</h1>
+</body>
+</html>
+
+<script>
+    function checkEvent(ev){
+        console.log(ev);
+        console.log(ev.target.innerHTML);
+        ev.target.innerHTML = "I changed you"
+        ev.target.style.backgroundColor = "red";
+        console.log(ev.target.previousElementSibling);
+        ev.target.previousElementSibling.style.backgroundColor = "green"
+        ev.target.nextElementSibling.style.color = "pink"
+    }
+    let queCount = 0
+    let prevBTN = document.getElementById("prevBTN")
+    let scoreBtn = document.getElementById("scoreBtn");
+    let nextBTN = document.getElementById("nextBTN")
+    let pickedAns = []
+    let score = 0
+    prevBTN.setAttribute("disabled", true)
+    scoreBtn.style.display = "none"
+    let cbt = [
+        {
+            ques: "What is your fav color",
+            options: ["Red", "Green", "White", "Black"],
+            ans: "White"
+        },
+        {
+            ques: "What is your fav food",
+            options: ["Rice", "Beans", "Amala", "Pounded Yam"],
+            ans: "Beans"
+        },
+        {
+            ques: "What is your fav Class",
+            options: ["HTML", "CSS", "JS", "Bootstrap"],
+            ans: "JS"
+        },
+        {
+            ques: "What is your fav car",
+            options: ["Benz", "Micra", "BMW", "Toyota"],
+            ans: "BMW"
+        },
+    ]
+    
+    function showQue(){
+        dispQue.innerHTML = `<h1> ${queCount+1}. ${cbt[queCount].ques}</h1>`;
+        // dispQue.innerHTML += `<input type="radio" /> <span>${cbt[queCount].options[0]}</span>`
+        // dispQue.innerHTML += `<input type="radio" /> <span>${cbt[queCount].options[1]}</span>`
+        // dispQue.innerHTML += `<input type="radio" /> <span>${cbt[queCount].options[2]}</span>`
+        // dispQue.innerHTML += `<input type="radio" /> <span>${cbt[queCount].options[3]}</span>`
+        cbt[queCount].options.forEach((el)=>{
+            dispQue.innerHTML += `
+                <input onchange="pickAns(event)" value="${el}" name="dan" type="radio" />
+                <span>${el}</span> <br />
+            `
+        })
+    }
+    showQue()
+
+    function nextQue(){
+        prevBTN.removeAttribute("disabled")
+        if(queCount == cbt.length-1){
+            nextBTN.style.display = "none"
+            scoreBtn.style.display = "initial"
+        }
+        queCount++;
+
+        showQue()
+    }
+
+    function prev(){
+        queCount--;
+        if(queCount == 0){
+            prevBTN.setAttribute("disabled", true)
+        }else{}
+        showQue()
+    }
+    function pickAns(ev){
+        let selected = ev.target.value
+        pickedAns[queCount] = selected
+        console.log(pickedAns);
+        // console.log(ev.target.value);
+    }
+    function showScore(){
+        cbt.forEach((el, i)=>{
+            if(el.ans == pickedAns[i]){
+                score++
+            }
+        })
+        alert(`You scored ${score} out of ${cbt.length}`)
+    }
+</script>

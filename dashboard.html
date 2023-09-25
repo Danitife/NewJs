@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <h1>Welcome to your dashboard <span id="userName"></span></h1>
+        <div>
+            <h3>Add music to your playlist</h3>
+            <input type="file">
+            <audio controls src=""></audio>
+            <img src="https://robohash.org/hicveldicta.png" alt="">
+        </div>
+    </main>
+    <main id="dispUser"></main>
+    <main>
+        <h1 id="showData"></h1>
+        <h1>Register</h1>
+        <input id="username" type="text" placeholder="Username"><br><br>
+        <input id="email" type="text" placeholder="Enter your Email"><br><br>
+        <input id="password" type="text" placeholder="***"><br><br>
+        <button onclick="register()">Register</button>
+
+    </main>
+</body>
+</html>
+
+<script>
+
+    let username = document.getElementById("username")
+    let email = document.getElementById("email")
+    let password = document.getElementById("password");
+    let users;
+
+    function register(){
+        // ev.preventDefault();
+        fetch("http://localhost:5555/users", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username.value,
+                email: email.value,
+                password: password.value
+            })
+        }).then((ttt)=>ttt.json())
+        .then((anything)=>{
+            console.log(anything);
+            alert("REG SUC")
+            fetchUsers()
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+
+    function fetchUsers(){
+        fetch("http://localhost:5555/users").then((res)=>res.json())
+        .then((data)=>{
+            users = data
+            console.log(users);
+            users.forEach(element => {
+                dispUser.innerHTML +=`
+                    <div class="card shadow w-25 m-1 rounded position-relative p-2">
+                        <button onclick="delUser(${element.id})" class="btn btn-danger btn-sm position-absolute end-0 top-0">&times;</button>
+                        <h3>${element.username}</h3>
+                        <p>${element.email}</p>
+                    </div>
+                `
+            });
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+    fetchUsers()
+    function delUser(id){
+        fetch(`http://localhost:5555/users/${id}`, {
+            method: "DELETE",
+        }).then((res)=>res.json())
+        .then((data)=>{
+            console.log(data);
+            alert("Deleted")
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+
+    // Assignment 1 (A user should not be able to access your dashboard if he is not signed in)
+    // Assignment 2 (Implement a logout button)
+    // A music App (Play, Pause, increase & decrease volume, seek, Prev, Next, Duration)
+
+    let signedUser = JSON.parse(localStorage.getItem("signedUser"))
+    console.log(signedUser);
+    // userName.innerHTML = signedUser.username;
+
+
+    //Callback JS runs synchronously
+    //async and await
+    //fetch (A js function that is used to communicate to a server with an api)
+    //api (Application Programming interface that transmit information between a server and the client)
+    //try and catch
+    //http methods
+    //json server...
+    let arr = ["Me", "You", "Him", "Her"];
+
+    function addToArr(dan){
+        setTimeout(()=>{
+            arr.push("Something")
+            dan()
+        }, 2000)
+    }
+
+    function logToConsole(){
+        arr.map((el)=>{
+            console.log(el);
+        })
+    }
+    addToArr(logToConsole);
+
+    fetch('https://dummyjson.com/users').then((res)=>res.json())
+    .then((data)=>{
+        console.log(data);
+    }).catch((err)=>{
+        console.log(err);
+    })
+
+    //Image, Name, Address, email, Blood group
+    // JSON SERVER
+
+</script>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="">
+        <h1>Sign in</h1>
+        <input id="email" type="email" placeholder="Email"> <br><br>
+        <input id="password" type="password" placeholder="****"> <button type="button" onclick="showPass()">S</button> <br><br>
+        <button type="button" onclick="register()">Sign In</button>
+    </form>
+</body>
+</html>
+
+<script>
+    let allUser = JSON.parse(localStorage.getItem("myUser"))
+    console.log(allUser);
+    let email = document.getElementById("email")
+    let password = document.getElementById("password")
+    function showPass(){
+        console.log(password);
+        password.type == "password"? password.type = "text": password.type = "password";
+    }
+
+    function register(){
+        let found = allUser.find((el)=> el.email == email.value && el.password == password.value)
+        console.log(found);
+        if(email.value == "" || password.value == ""){
+            alert("Input fields cannot be empty")
+        }else if(found == undefined){
+            alert("User not found")
+        }else{
+            localStorage.setItem("signedUser", JSON.stringify(found))
+            alert("Login Successful")
+            window.location.href = "dashboard.html"
+        }
+    }
+
+</script>

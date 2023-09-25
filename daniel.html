@@ -7,5 +7,48 @@
 </head>
 <body>
     <h1>Added Daniel to the list of files</h1>
+    <input id="list" type="text"><br>
+    <button onclick="saveList()">Save</button>
+    <h1 id="showList"></h1>
+    <button onclick="something()">Invoke</button>
 </body>
 </html>
+
+<script>
+    let list = document.getElementById("list")
+    let allLiist = []
+    function saveList(){
+        allLiist.push(list.value)
+        localStorage.setItem("myList", allLiist);
+        ggetList()
+    }
+
+    function getList(){
+        let gotten = localStorage.getItem("myList")
+        console.log(gotten);
+        showList.innerHTML = gotten
+    }
+    getList()
+
+
+    // Function declaration
+    // Function Calling (Invoke)
+    // Self Invoking function || Reusable function
+    let arr1 = ["Arr1", "Arr2", "Arr3"];
+        function dispArr(){
+            arr1.forEach((write)=>{
+                showList.innerHTML += write +"<button onclick='del()'>x</button>" + "<br />"
+            })
+        }
+        dispArr();
+    function something(){
+        arr1.push("arr4");
+        dispArr()
+    } //Function declaration
+    function del(){
+        arr1.splice(0,1);
+        dispArr();
+    }
+    
+    
+</script>

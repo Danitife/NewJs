@@ -6,12 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    <main>
-        <img width="200" height="200" id="img" alt="">
-        <button onclick="prevImg()">Prev</button>
-        <button onclick="nextImg()">Next</button>
-    </main>
-
     <form action="">
         <h1>Register</h1>
         <input id="username" type="text" placeholder="Username"> <br><br>
@@ -20,40 +14,28 @@
         <input id="c_password" type="password" placeholder="****"> <button type="button" onclick="showCPass()">S</button> <br><br>
         <button type="button" onclick="register()">Register</button>
     </form>
-    <button onclick="interClear()">Clear interval</button>
 </body>
 </html>
 
 <script>
-    let img = document.getElementById("img");
-    let imgArr = ["sneak1.jpeg", "sneak2.jpg", "sneak3.jpg", "sneak4.jpg"]
-    let index = 0;
-    img.src = imgArr[index];
-    function nextImg(){
-        console.log(index == imgArr.length -1);
-        if(index == imgArr.length-1){
-            index = 0
-        }
-        index++
-        img.src = imgArr[index]
-    }
-    function prevImg(){
-        if(index == 0){
-            index = imgArr.length-1
-        }
-        index--;
-        img.src = imgArr[index]
-    }
     let username = document.getElementById("username")
     let email = document.getElementById("email")
     let password = document.getElementById("password")
     let c_password = document.getElementById("c_password")
+    let allUser = JSON.parse(localStorage.getItem("myUser"))
     function showPass(){
         console.log(password);
         password.type == "password"? password.type = "text": password.type = "password";
     }
 
     function register(){
+        let data = {
+            username: username.value,
+            email: email.value,
+            password: password.value,
+            c_password: c_password.value
+        }
+        console.log(data);
         if(username.value == "" || email.value == "" || password.value == ""){
             alert("Input fields cannot be empty")
         }else if(password.value !== c_password.value){
@@ -61,23 +43,11 @@
         }else if(password.value.length < 8){
             alert("Password must be at least 8 characters")
         }else{
+            allUser.push(data)
+            localStorage.setItem("myUser", JSON.stringify(allUser))
             alert("Registration Successfull")
+            window.location.href = "login.html"
         }
     }
 
-    //Math.random
-    console.log(Math.floor(Math.random()* 100));
-
-    setTimeout(()=>{
-        alert("You delayed me")
-    },3000)
-
-    let theLog = setInterval(()=>{
-        console.log("Something");
-        console.log("Line 2");
-    }, 2000)
-
-    function interClear(){
-        clearInterval(theLog)
-    }
 </script>

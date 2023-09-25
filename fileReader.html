@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="doSomething()">Click me</button>
+    <h1>
+        <span>11</span>:
+        <span>06</span>:
+        <span>17</span>
+    </h1>
+    <main>
+        <button onclick="dispEv(event)">Event</button>
+
+        <input onchange="pickFile(event)" type="file">
+        <img id="dispImg" width="200" height="200" alt="">
+    </main>
+</body>
+</html>
+<!-- <script src="java.js"></script> -->
+
+
+<script>
+    let date = new Date();
+    console.log(date);
+    console.log(date.getHours());
+    console.log(date.getMinutes());
+    console.log(date.getSeconds());
+
+    function dispEv(ev){
+        console.log(ev.target);
+    }
+    function pickFile(ev){
+        let file = ev.target.files[0];
+        let reader = new FileReader(); //A PENDING ASSIGNMENT...
+
+        reader.addEventListener("load", (e)=>{
+            let result = e.target.result;
+            console.log(result);
+            dispImg.src = result
+        })
+
+        if(file){
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
